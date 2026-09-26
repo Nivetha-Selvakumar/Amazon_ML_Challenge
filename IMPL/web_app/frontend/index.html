@@ -651,9 +651,15 @@
           const badgeClass = isMatch ? 'badge-success' : 'badge-primary';
           const pct = Math.round(item.confidence_score * 100);
 
+          const sourceTag = item.source_dataset || (item.entity_id.startsWith('S2') ? 'Source 2' : 'Source 3');
+          const sourceBadgeClass = item.entity_id.startsWith('S2') ? 'badge-primary' : 'badge-success';
+
           html += `
             <tr>
-              <td style="font-weight: 600; font-family: monospace;">${item.entity_id}</td>
+              <td>
+                <div style="font-weight: 600; font-family: monospace;">${item.entity_id}</div>
+                <div style="margin-top: 4px;"><span class="badge ${sourceBadgeClass}" style="font-size: 10px; padding: 2px 8px;">${sourceTag}</span></div>
+              </td>
               <td>${item.business_name || '<em style="color: #94a3b8;">Missing</em>'}</td>
               <td>${item.business_address || '<em style="color: #94a3b8;">Missing</em>'}</td>
               <td><span class="badge badge-primary">${item.country}</span></td>

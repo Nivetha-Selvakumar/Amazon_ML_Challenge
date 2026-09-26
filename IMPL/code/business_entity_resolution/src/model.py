@@ -88,7 +88,11 @@ class EntityMatchingModel:
             preds_df = candidate_pairs_df[probas >= t]
             preds_dict = {s1_id: set() for s1_id in all_s1_ids}
             for _, row in preds_df.iterrows():
-                preds_dict[row['source1_entity_id']].add(row['candidate_entity_id'])
+                s1_id = row['source1_entity_id']
+                if s1_id in preds_dict:
+                    preds_dict[s1_id].add(row['candidate_entity_id'])
+                else:
+                    preds_dict[s1_id] = {row['candidate_entity_id']}
 
             f05 = calculate_macro_f05(ground_truth_dict, preds_dict, all_s1_ids)
             if f05 > best_f05:
